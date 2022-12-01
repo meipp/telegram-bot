@@ -1,5 +1,5 @@
 from aiogram.types import ChatActions, Message
-from subprocess import run, PIPE
+from subprocess import run
 
 from bot.bot import on_reply, listen_on_change
 
