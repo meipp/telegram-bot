@@ -12,7 +12,7 @@ from everytime import every, schedule
 import numpy as np
 import matplotlib.pyplot as plt
 
-from bot.util import parseMatrix
+from bot.util import parseDict, parseMatrix
 
 API_TOKEN = os.environ["API_TOKEN"]
 
@@ -151,17 +151,6 @@ class Competition:
         x, y = self.ranking.keys(), self.ranking.values()
         await send_barplot(self.sink, x, y, title=self.competition_name)
 
-
-def parseDict(message: Message):
-    d = {}
-
-    for line in message.text.splitlines():
-        match = re.match(r"\A(.+):\s+(\d+)\Z", line)
-        if not match:
-            raise ValueError()
-
-        d[match[1]] = int(match[2])
-    return d
 
 def sumDict(d: dict) -> int:
     return sum(d.values())

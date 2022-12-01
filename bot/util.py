@@ -12,6 +12,19 @@ def parseXY(message: Message):
 
     return x, y
 
+
+def parseDict(message: Message):
+    d = {}
+
+    for line in message.text.splitlines():
+        match = re.match(r"\A(.+):\s+(\d+)\Z", line)
+        if not match:
+            raise ValueError()
+
+        d[match[1]] = int(match[2])
+    return d
+
+
 def parseMatrix(message: Message, delimiter: str = r"\s*[:\|]\s*"):
     matrix = []
     for line in message.text.splitlines():
