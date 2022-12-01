@@ -1,4 +1,4 @@
-from aiogram.types import Message
+from aiogram.types import Message, User
 import os
 from subprocess import run, Popen, PIPE, TimeoutExpired
 
@@ -7,11 +7,15 @@ from bot.util import parseArgs
 
 whitelist = os.environ["EXEC_WHITELIST"].split(":")
 
+
+def authenticate(user: User):
+    print("authenticate", user.first_name, user.username, user.id)
+    if user.username not in whitelist and str(user.id) not in whitelist:
+        raise RuntimeError("User is not whitelisted")
+
 @on(command="exec")
 async def command_exec(message: Message, *_):
-    print(message.from_user.first_name, message.from_user.id)
-    if str(message.from_user.id) not in whitelist:
-        raise RuntimeError("User is not whitelisted")
+    authenticate(message.from_user)
 
     async def exec(message: Message):
         args, kwargs = parseArgs(message)
@@ -35,9 +39,7 @@ async def command_exec(message: Message, *_):
 
 @on(command="shell")
 async def command_shell(message: Message, *_):
-    print(message.from_user.first_name, message.from_user.id)
-    if str(message.from_user.id) not in whitelist:
-        raise RuntimeError("User is not whitelisted")
+    authenticate(message.from_user)
 
     async def exec(message: Message):
         args, kwargs = parseArgs(message)
