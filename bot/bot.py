@@ -7,7 +7,7 @@ import inspect
 import os
 import matplotlib.pyplot as plt
 
-from bot.util import parseDict
+from bot.util import parseArgs, parseDict
 
 API_TOKEN = os.environ["API_TOKEN"]
 
@@ -119,19 +119,6 @@ def listen_on_change(message: Message) -> MessageListener:
 def sumDict(d: dict) -> int:
     return sum(d.values())
 
-
-def parseArgs(message: Message):
-    args, kwargs = [], {}
-
-    if message.get_args():
-        for arg in re.split(r"\s+", message.get_args()):
-            match = re.match(r"\A([^=]+)=([^=]+)\Z", arg)
-            if match:
-                kwargs[match[1]] = match[2]
-            else:
-                args.append(arg)
-
-    return args, kwargs
 
 def on(command: str, description: str = None, hidden: bool = False):
     def decorator(f):

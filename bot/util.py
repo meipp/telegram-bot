@@ -2,6 +2,20 @@ from aiogram.types import Message
 import numpy as np
 import re
 
+def parseArgs(message: Message):
+    args, kwargs = [], {}
+
+    if message.get_args():
+        for arg in re.split(r"\s+", message.get_args()):
+            match = re.match(r"\A([^=]+)=([^=]+)\Z", arg)
+            if match:
+                kwargs[match[1]] = match[2]
+            else:
+                args.append(arg)
+
+    return args, kwargs
+
+
 def parseXY(message: Message):
     x, y = [], []
 
