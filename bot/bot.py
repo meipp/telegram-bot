@@ -7,7 +7,7 @@ import inspect
 import os
 import matplotlib.pyplot as plt
 
-from bot.util import parseDict, parseMatrix
+from bot.util import parseDict
 
 API_TOKEN = os.environ["API_TOKEN"]
 
@@ -213,16 +213,6 @@ def bar(x: list[str], y: list[int], title: str = None, caption: str = None):
 
 def add_message_listener(chat_id, message_id, listener):
     message_listeners.setdefault(chat_id, {}).setdefault(message_id, []).append(listener)
-
-
-@on_reply(command="submatrix")
-async def command_submatrix(message: Message, *args):
-    if len(args) >= 1:
-        x1, x2, y1, y2 = parseIndex(args[0])
-
-        matrix = parseMatrix(message)
-        print(matrix)
-        print(matrix[y1:y2, x1:x2])
 
 
 @on_reply(command="sum")
