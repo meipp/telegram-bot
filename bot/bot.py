@@ -4,12 +4,7 @@ from aiogram.types import Message
 from aiogram.types.input_media import InputMediaPhoto
 import re
 import inspect
-import asyncio
-import json
 import os
-from datetime import datetime, timedelta
-from everytime import every, schedule
-import numpy as np
 import matplotlib.pyplot as plt
 
 from bot.util import parseDict, parseMatrix

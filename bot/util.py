@@ -1,4 +1,5 @@
 from aiogram.types import Message
+import numpy as np
 
 def parseXY(message: Message):
     x, y = [], []
