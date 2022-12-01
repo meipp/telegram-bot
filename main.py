@@ -1,5 +1,6 @@
 from bot.bot import start_bot
 
+import modules.competitions
 import modules.deepl
 import modules.mensa_goettingen
 import modules.plots

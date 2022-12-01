@@ -38,8 +38,6 @@ def calculate_sum(message: Message):
 
 # message_listeners[chat_id][message_id][i]
 message_listeners = {}
-# competitions[chat_id][competition_name]
-competitions = {}
 
 available_commands = []
 
@@ -122,35 +120,6 @@ class MessageSink:
 
 def listen_on_change(message: Message) -> MessageListener:
     return MessageListener(message)
-
-class Competition:
-    competition_name: str
-    sink: MessageSink
-    ranking: dict
-
-    def __init__(self, competition_name: str):
-        self.competition_name = competition_name
-        self.sink = None
-        self.ranking = {}
-
-    async def add(self, message: Message):
-        if not self.sink:
-            self.sink = MessageSink(reply_to=message, answer_only=True, pin=True)
-
-        async def helper(message: Message):
-            sum = calculate_sum(message)
-            name = message.from_user.first_name
-            self.ranking[name] = sum
-            await self.update()
-
-        listener = MessageListener(message)
-        listener.subscribe(helper)
-        await listener.issue_update(message)
-
-    async def update(self):
-        x, y = self.ranking.keys(), self.ranking.values()
-        await send_barplot(self.sink, x, y, title=self.competition_name)
-
 
 def sumDict(d: dict) -> int:
     return sum(d.values())
@@ -264,19 +233,6 @@ async def command_submatrix(message: Message, *args):
 @on_reply(command="sum")
 async def command_sum(message: Message):
     await listen_on_change(message).then(parseDict).then(sumDict).then(lambda sum: f"Σ:{sum}").send()
-
-@on_reply(command="compete")
-async def command_compete(message: Message, *args, **kwargs):
-    chat_id = message.chat.id
-    competition_name = args[0] if len(args) >= 1 else "Competition"
-
-    print(competitions)
-
-    competition = competitions.setdefault(chat_id, {}).get(competition_name)
-    if not competition:
-        competition = Competition(competition_name)
-        competitions[chat_id][competition_name] = competition
-    await competition.add(message)
 
 
 @on(command="echo", hidden=True)
