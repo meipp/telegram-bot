@@ -16,7 +16,6 @@ async def command_deepl(message: Message, *args):
         translator = deepl.Translator(DEEPL_API_KEY)
         result = translator.translate_text(message.text, source_lang=source_lang, target_lang=target_lang)
         translator.close()
-        print("translate_text")
 
         return result.text
 

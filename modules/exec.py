@@ -47,7 +47,6 @@ async def command_shell(message: Message, *_):
         timeout = 5
 
         p = run(command, shell=True, capture_output=True, encoding="utf-8", timeout=timeout)
-        print("stdout", p.stdout)
 
         if p.returncode == 0:
             return p.stdout

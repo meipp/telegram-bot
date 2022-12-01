@@ -39,8 +39,6 @@ async def command_compete(message: Message, *args, **kwargs):
     chat_id = message.chat.id
     competition_name = args[0] if len(args) >= 1 else "Competition"
 
-    print(competitions)
-
     competition = competitions.setdefault(chat_id, {}).get(competition_name)
     if not competition:
         competition = Competition(competition_name)
