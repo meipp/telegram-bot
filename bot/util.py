@@ -27,7 +27,7 @@ def parseDict(message: Message):
     return d
 
 
-def parseMatrix(message: Message, delimiter: str = r"\s*[:\|]\s*"):
+def parseMatrix(message: Message, delimiter: str = r"\s*[:\|\s]\s*"):
     matrix = []
     for line in message.text.splitlines():
         split_line = re.split(delimiter, line)

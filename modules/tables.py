@@ -9,5 +9,11 @@ async def command_submatrix(message: Message, *args):
         x1, x2, y1, y2 = parseIndex(args[0])
 
         matrix = parseMatrix(message)
-        print(matrix)
-        print(matrix[y1:y2, x1:x2])
+        submatrix = matrix[y1:y2, x1:x2]
+        (yn, xn) = submatrix.shape
+
+        s = ""
+        for yi in range(yn):
+            s += " ".join([submatrix[yi, xi] for xi in range(xn)]) + "\n"
+
+        await message.reply(s)
